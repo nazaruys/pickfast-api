@@ -4,10 +4,10 @@ from django.conf import settings
 from django.db.models.signals import pre_delete
 from django.dispatch import receiver
 from django.contrib.auth import get_user_model
-from core.signals import reset_group_admin_signal
+from .signals import reset_group_admin_signal
+from .functions import update_group_admin
 
 User= get_user_model()
-
 
 class Group(models.Model):
     code = models. \
@@ -27,11 +27,11 @@ class Group(models.Model):
     
     @receiver(pre_delete, sender=User)
     def resign_admin(sender, instance, **kwargs):
-        group_of_admin = instance.admin_of
-        # If user is an admin
-        if group_of_admin is not None:
-            group_of_admin.admin = group_of_admin.members.exclude(pk=instance.pk).first()
-            group_of_admin.save()
+        update_group_admin(instance)
+
+    @receiver(reset_group_admin_signal)
+    def reset_group_admin(sender, instance, **kwargs):
+        update_group_admin(instance)
 
     def __str__(self):
         return self.code
@@ -47,15 +47,6 @@ class Group(models.Model):
         while Group.objects.filter(code=code).exists():
             code = get_random_string(length=6, allowed_chars=allowed_chars)
         return code
-    
-    def reset_group_admin(sender, instance, **kwargs):
-        group = instance.admin_of
-        group.admin = group.members.exclude(pk=instance.pk).first()
-        group.save()
-        if group.admin == None:
-            group.delete()
-
-    reset_group_admin_signal.connect(reset_group_admin)
 
 class Store(models.Model):
     name = models.CharField(max_length=100)

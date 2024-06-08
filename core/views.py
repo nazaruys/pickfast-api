@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model, authenticate, login, logout
 from rest_framework import generics, status, viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -6,11 +7,10 @@ from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from rest_framework import mixins
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.exceptions import TokenError
-from django.contrib.auth import get_user_model, authenticate, login, logout
-from .serializers import UserSerializer, LoginSerializer
+from groups.signals import reset_group_admin_signal
 from groups.models import Group
+from .serializers import UserSerializer, LoginSerializer
 from .functions import is_valid_password
-from .signals import reset_group_admin_signal
 from .permissions import IsUsersProfile
 
 
