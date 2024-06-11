@@ -12,7 +12,7 @@ from rest_framework import mixins
 from rest_framework.viewsets import GenericViewSet
 from .models import Group, Store, Product
 from .serializers import GroupSerializer, StoreSerializer, ProductSerializer, MembersUserSerializer
-from .permissions import IsGroupAdmin, IsGroupMember
+from .permissions import IsGroupAdmin, IsGroupMember, IsGroupless
 
 User = get_user_model()
 
@@ -27,7 +27,7 @@ class GroupViewSet(mixins.CreateModelMixin,
         if self.request.method == 'PATCH' or self.request.method == 'PUT':
             self.permission_classes = [IsGroupAdmin, ]
         elif self.request.method == 'POST':
-            self.permission_classes = [IsAuthenticated, ]
+            self.permission_classes = [IsAuthenticated, IsGroupless, ]
         elif self.request.method == 'GET':
             self.permission_classes = [IsGroupMember, ]
         else:
@@ -44,10 +44,12 @@ class GroupViewSet(mixins.CreateModelMixin,
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        admin = User.objects.get(id=request.user.id)
+        admin = User.objects.get(id=request.user.id) 
         serializer.save(admin=admin)
+        admin.group = Group.objects.get(code=serializer.data.get('code'))
+        admin.save()
         headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_200_OK, headers=headers)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
     
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', False)

@@ -26,3 +26,7 @@ These instructions will help you get a copy of the project up and running on you
    ```sh
    git clone https://github.com/nazaruy/groceries_cart.git
    cd groceries_cart
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.

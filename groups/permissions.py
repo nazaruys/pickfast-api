@@ -18,4 +18,10 @@ class IsGroupMember(permissions.BasePermission):
 
             return request.user.group_id == group_pk
         return False
-
+    
+class IsGroupless(permissions.BasePermission):
+    def has_permission(self, request, view):
+        if request.user.is_authenticated:
+            group_id = request.user.group_id
+            return not group_id
+        return False
