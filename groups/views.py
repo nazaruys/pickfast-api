@@ -24,14 +24,17 @@ class GroupViewSet(mixins.CreateModelMixin,
     serializer_class = GroupSerializer
 
     def get_permissions(self):
-        if self.request.method == 'PATCH' or self.request.method == 'PUT':
-            self.permission_classes = [IsGroupAdmin, ]
-        elif self.request.method == 'POST':
-            self.permission_classes = [IsAuthenticated, IsGroupless, ]
-        elif self.request.method == 'GET':
-            self.permission_classes = [IsGroupMember, ]
+        if self.request.user and self.request.user.is_staff:
+            self.permission_classes = [AllowAny]
         else:
-            self.permission_classes = [IsAuthenticated, ]
+            if self.request.method == 'PATCH' or self.request.method == 'PUT':
+                self.permission_classes = [IsGroupAdmin, ]
+            elif self.request.method == 'POST':
+                self.permission_classes = [IsAuthenticated, IsGroupless, ]
+            elif self.request.method == 'GET':
+                self.permission_classes = [IsGroupMember, ]
+            else:
+                self.permission_classes = [IsAuthenticated, ]
         return super().get_permissions()
     
     @action(detail=True, methods=['get'])
@@ -70,7 +73,13 @@ class GroupViewSet(mixins.CreateModelMixin,
 
 class StoreViewSet(viewsets.ModelViewSet):
     serializer_class = StoreSerializer
-    permission_classes = [IsGroupMember]
+
+    def get_permissions(self):
+        if self.request.user and self.request.user.is_staff:
+            self.permission_classes = [AllowAny]
+        else:
+            self.permission_classes = [IsGroupMember]
+        return super().get_permissions()
 
     def get_queryset(self):
         return Store.objects.filter(group_id=self.kwargs.get('group_pk'))
@@ -85,7 +94,13 @@ class StoreViewSet(viewsets.ModelViewSet):
     
 class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
-    permission_classes = [IsGroupMember]
+
+    def get_permissions(self):
+        if self.request.user and self.request.user.is_staff:
+            self.permission_classes = [AllowAny]
+        else:
+            self.permission_classes = [IsGroupMember]
+        return super().get_permissions()
 
     def get_queryset(self):
         group_id = self.kwargs.get('group_pk')

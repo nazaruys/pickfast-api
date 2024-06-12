@@ -26,17 +26,20 @@ class UserViewSet(mixins.CreateModelMixin,
     serializer_class = UserSerializer
 
     def get_permissions(self):
-        if self.action == 'list':
-            permission_classes = [IsAdminUser]
-        elif self.action == 'retrieve':
-            permission_classes = [IsUsersProfile]
-        elif self.action == 'update':
-            permission_classes = [IsUsersProfile]
-        elif self.action == 'create':
-            permission_classes = [AllowAny]
+        if self.request.user and self.request.user.is_staff:
+            self.permission_classes = [AllowAny]
         else:
-            permission_classes = [IsAuthenticated]
-        return [permission() for permission in permission_classes]
+            if self.action == 'list':
+                permission_classes = [IsAdminUser]
+            elif self.action == 'retrieve':
+                permission_classes = [IsUsersProfile]
+            elif self.action == 'update':
+                permission_classes = [IsUsersProfile]
+            elif self.action == 'create':
+                permission_classes = [AllowAny]
+            else:
+                permission_classes = [IsAuthenticated]
+        return super().get_permissions()
 
         
     
