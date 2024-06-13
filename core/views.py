@@ -30,15 +30,15 @@ class UserViewSet(mixins.CreateModelMixin,
             self.permission_classes = [AllowAny]
         else:
             if self.action == 'list':
-                permission_classes = [IsAdminUser]
+                self.permission_classes = [IsAdminUser]
             elif self.action == 'retrieve':
-                permission_classes = [IsUsersProfile]
-            elif self.action == 'update':
-                permission_classes = [IsUsersProfile]
+                self.permission_classes = [IsUsersProfile]
+            elif self.action == 'update' or self.action == 'partial_update':
+                self.permission_classes = [IsUsersProfile]
             elif self.action == 'create':
-                permission_classes = [AllowAny]
+                self.permission_classes = [AllowAny]
             else:
-                permission_classes = [IsAuthenticated]
+                self.permission_classes = [IsAuthenticated]
         return super().get_permissions()
 
         

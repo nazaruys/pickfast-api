@@ -134,15 +134,13 @@ REST_FRAMEWORK = {
 
 from datetime import timedelta
 
-if os.environ.get("DEBUG") == True:
-    access_token_lifetime = timedelta(days=30)
-else:
-    access_token_lifetime = timedelta(minutes=30)
-
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': access_token_lifetime,
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=30),
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': True,
     'UPDATE_LAST_LOGIN': False,
 }
+
+if os.environ.get("DEBUG"):
+    SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'] = timedelta(days=1) 
