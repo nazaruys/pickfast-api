@@ -60,7 +60,7 @@ class Product(models.Model):
 
     title = models.CharField(max_length=40)
     priority = models.CharField(max_length=1, choices=PRIORITY_CHOICES, default='M')
-    active = models.BooleanField(default=True)
+    date_buyed = models.DateTimeField(null=True)
     store = models.ForeignKey(Store, null=True, on_delete=models.CASCADE, related_name='products')
     group = models.ForeignKey(Group, null=True, on_delete=models.CASCADE, related_name='products')
     added_by = models.ForeignKey(

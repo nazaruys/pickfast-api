@@ -17,7 +17,7 @@ class GroupSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ['id', 'title', 'priority', 'store_id', 'added_by']
+        fields = ['id', 'title', 'priority', 'date_buyed', 'store_id', 'added_by']
 
 class MembersUserSerializer(serializers.ModelSerializer):
     class Meta:
