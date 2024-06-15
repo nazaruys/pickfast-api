@@ -4,6 +4,8 @@ import os
 
 load_dotenv()
 
+DEBUG = os.getenv('DEBUG') == 'True'
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -123,6 +125,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+
 AUTH_USER_MODEL = 'core.User'
 
 REST_FRAMEWORK = {
@@ -142,5 +145,10 @@ SIMPLE_JWT = {
     'UPDATE_LAST_LOGIN': False,
 }
 
-if os.environ.get("DEBUG"):
-    SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'] = timedelta(days=1) 
+CELERY_BROKER_URL = 'redis://localhost:6379/1'
+
+if DEBUG:
+    SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'] = timedelta(days=1)
+    INSTALLED_APPS += ["debug_toolbar",]
+    MIDDLEWARE += ["debug_toolbar.middleware.DebugToolbarMiddleware",]
+    INTERNAL_IPS = ["127.0.0.1"]
