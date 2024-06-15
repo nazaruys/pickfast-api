@@ -1,32 +1,76 @@
-# Groceries Cart
+# Groceries Cart API
 
-Groceries Cart is a Django REST Framework (DRF) application that helps you and your family keep track of the items you need to buy from stores. This is a practice project, but it would be great if a frontend developer could collaborate and create a frontend for this project.
+Groceries Cart API is a Django REST Framework (DRF) API for an app that helps you and your family keep track of the items you need to buy from stores.
 
 ## Features
 
-- Add, update, and delete grocery items.
+- Create groups.
+- CRUD grocery items.
 - Categorize items by store and priority.
-- Share the list with family members.
-- Mark items as purchased.
+- Mark items as purchased and more.
+
+## API Endpoints
+
+### Core API
+
+#### Users
+- **GET** `/api/core/users/`: Retrieve list of users
+- **POST** `/api/core/users/`: Create a new user
+- **GET** `/api/core/users/{id}/`: Retrieve details of a specific user
+- **PATCH** `/api/core/users/{id}/`: Update a specific user
+
+#### Authentication
+- **POST** `/api/core/login/`: Login and obtain access token
+- **POST** `/api/core/logout/`: Logout and invalidate access token
+- **POST** `/api/core/refresh/`: Refresh access token
+
+### Groups API
+
+#### Groups
+- **GET** `/api/group/groups/`: Retrieve list of groups
+- **POST** `/api/group/groups/`: Create a new group
+- **GET** `/api/group/groups/{id}/`: Retrieve details of a specific group
+- **PATCH** `/api/group/groups/{id}/`: Update a specific group
+
+#### Group Products
+- **GET** `/api/group/groups/{group_id}/products/`: Retrieve products for a specific group
+- **POST** `/api/group/groups/{group_id}/products/`: Create a new product for a specific group
+- **GET** `/api/group/groups/{id}/products/{id}/`: Retrieve details of a specific product of a group
+- **PATCH** `/api/group/groups/{id}/products/{id}/`: Update a specific product of a group
+- **DELETE** `/api/group/groups/{id}/products/{id}/`: Delete a specific product of a group
+- **CRUD** `/api/group/groups/{group_id}/stores/{store_id}/products/`: Create, Read, Update, Delete products within a specific store
+
+#### Group Stores
+- **GET** `/api/group/groups/{group_id}/stores/`: Retrieve stores for a specific group
+- **POST** `/api/group/groups/{group_id}/stores/`: Create a new store for a specific group
+- **GET** `/api/group/groups/{id}/stores/{id}/`: Retrieve details of a specific store of a group
+- **PATCH** `/api/group/groups/{id}/stores/{id}/`: Update a specific store of a group
+
+#### Group Members
+  - **GET** `/api/group/groups/{group_id}/members/`: Retrieve members for a specific group
+
+## Stack
+  - Django
+  - MySql Client
+  - Django Rest Framework
+  - Docker
+  - Redis
+  - Celery
+  - Celery Beat
+  - DRF SimpleJWT
+  - Pytest
+  - Pytest Watch
+  - Django Debug Toolbar
+  - Python Dotenv
+  - DRF Nested Routers
 
 ## Getting Started
+#### This project uses Docker, in order to start it on your machine, make sure you have Docker installed and run:
+  - `git https://github.com/nazaruys/groceries_cart-api.git`
+  - `cd groceries_cart-api`
+  - `docker-compose up --build`
 
-These instructions will help you get a copy of the project up and running on your local machine for development and testing purposes.
-
-### Prerequisites
-
-- Python 3.x
-- Django 3.x
-- Django REST Framework
-
-### Installation
-
-1. Clone the repository:
-
-   ```sh
-   git clone https://github.com/nazaruy/groceries_cart.git
-   cd groceries_cart
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the Apache License 2.0 - see the LICENSE file for details.

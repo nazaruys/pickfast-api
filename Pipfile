@@ -12,6 +12,11 @@ pytest = "*"
 pytest-django = "*"
 python-dotenv = "*"
 model-bakery = "*"
+django-debug-toolbar = "*"
+redis = "*"
+celery = "*"
+pytest-watch = "*"
+djangorestframework-simplejwt = "*"
 
 [dev-packages]
 

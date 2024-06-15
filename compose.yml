@@ -1,0 +1,39 @@
+services:
+  mysql:
+    image: mysql:8.0
+    volumes:
+      - mysql_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD}
+      MYSQL_DATABASE: groceries_cart
+  web:
+    build: .
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mysql
+      - redis
+    env_file: .env
+    entrypoint: "./docker-entrypoint.sh"
+  redis:
+    image: redis:7.2
+    ports:
+      - "6379:6379"
+  celery:
+    build: .
+    command: celery -A groceries_cart worker --loglevel=info
+    depends_on:
+      - redis
+    volumes:
+      - .:/app
+  celery-beat:
+    build: .
+    command: celery -A groceries_cart beat --loglevel=info
+    depends_on:
+      - redis
+    volumes:
+      - .:/app
+volumes:
+  mysql_data:

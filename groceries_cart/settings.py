@@ -2,12 +2,14 @@ from pathlib import Path
 from dotenv import load_dotenv
 import os
 
-load_dotenv()
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+load_dotenv(dotenv_path=os.path.join(BASE_DIR, '.env'))
 
+DEBUG = os.getenv('DEBUG') == 'True'
+
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
@@ -75,7 +77,7 @@ DATABASES = {
         'NAME': 'groceries_cart',
         'USER': 'root',
         'PASSWORD': os.environ.get('DATABASE_PASSWORD'),
-        'HOST': 'localhost',
+        'HOST': 'mysql',
         'PORT': '3306',
     }
 }
@@ -123,6 +125,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+
 AUTH_USER_MODEL = 'core.User'
 
 REST_FRAMEWORK = {
@@ -142,5 +145,10 @@ SIMPLE_JWT = {
     'UPDATE_LAST_LOGIN': False,
 }
 
-if os.environ.get("DEBUG"):
-    SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'] = timedelta(days=1) 
+CELERY_BROKER_URL = 'redis://redis:6379/1'
+
+if DEBUG:
+    SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'] = timedelta(days=1)
+    INSTALLED_APPS += ["debug_toolbar",]
+    MIDDLEWARE += ["debug_toolbar.middleware.DebugToolbarMiddleware",]
+    INTERNAL_IPS = ["127.0.0.1"]
