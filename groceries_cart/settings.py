@@ -3,6 +3,12 @@ from dotenv import load_dotenv
 import os
 
 
+<<<<<<< HEAD
+=======
+DEBUG = os.getenv('DEBUG') == 'True'
+
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+>>>>>>> origin/main
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv(dotenv_path=os.path.join(BASE_DIR, '.env'))
@@ -145,7 +151,11 @@ SIMPLE_JWT = {
     'UPDATE_LAST_LOGIN': False,
 }
 
+<<<<<<< HEAD
 CELERY_BROKER_URL = 'redis://redis:6379/1'
+=======
+CELERY_BROKER_URL = 'redis://localhost:6379/1'
+>>>>>>> origin/main
 
 if DEBUG:
     SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'] = timedelta(days=1)
