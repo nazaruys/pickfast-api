@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "9c0d2f1d0bafb6dc436c06add04ce46e0858389d00ea2e21a8d2b92c2c4f4ae3"
+            "sha256": "079aded9f1c757df10068621d916969cb9d0142a3bf22c6efa28e87d2370ae40"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -115,6 +115,15 @@
             "markers": "python_version >= '3.8'",
             "version": "==3.15.2"
         },
+        "djangorestframework-simplejwt": {
+            "hashes": [
+                "sha256:381bc966aa46913905629d472cd72ad45faa265509764e20ffd440164c88d220",
+                "sha256:6c4bd37537440bc439564ebf7d6085e74c5411485197073f508ebdfa34bc9fae"
+            ],
+            "index": "pypi",
+            "markers": "python_version >= '3.8'",
+            "version": "==5.3.1"
+        },
         "drf-nested-routers": {
             "hashes": [
                 "sha256:2b846385ed95c9f17bf4242db3b264ac826b5af00dda6c737d3fe7cc7bf2c7db",
@@ -197,6 +206,14 @@
             "markers": "python_full_version >= '3.7.0'",
             "version": "==3.0.47"
         },
+        "pyjwt": {
+            "hashes": [
+                "sha256:57e28d156e3d5c10088e0c68abb90bfac3df82b40a71bd0daa20c65ccd5c23de",
+                "sha256:59127c392cc44c2da5bb3192169a91f429924e17aff6534d70fdc02ab3e04320"
+            ],
+            "markers": "python_version >= '3.7'",
+            "version": "==2.8.0"
+        },
         "pytest": {
             "hashes": [
                 "sha256:c434598117762e2bd304e526244f67bf66bbd7b5d6cf22138be51ff661980343",
@@ -240,15 +257,6 @@
             "index": "pypi",
             "markers": "python_version >= '3.7'",
             "version": "==5.0.6"
-        },
-        "rest-framework-simplejwt": {
-            "hashes": [
-                "sha256:035187ce5380e18e8b966610a89b6460fb4b73cd179979343888fb190328125d",
-                "sha256:620c56826ff4791c4aaa730ec52aed1f4c74b9c20ea15b9fc1a39bdf99a29a30"
-            ],
-            "index": "pypi",
-            "markers": "python_version >= '3.0'",
-            "version": "==0.0.2"
         },
         "six": {
             "hashes": [
