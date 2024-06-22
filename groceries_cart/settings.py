@@ -3,17 +3,10 @@ from dotenv import load_dotenv
 import os
 
 
-<<<<<<< HEAD
-=======
-DEBUG = os.getenv('DEBUG') == 'True'
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
->>>>>>> origin/main
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv(dotenv_path=os.path.join(BASE_DIR, '.env'))
 
-DEBUG = os.getenv('DEBUG') == 'True'
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 # Quick-start development settings - unsuitable for production
@@ -21,8 +14,7 @@ DEBUG = os.getenv('DEBUG') == 'True'
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY')
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG')
+DEBUG = os.getenv('DEBUG') == 'True'
 
 ALLOWED_HOSTS = ['*']
 
@@ -151,11 +143,7 @@ SIMPLE_JWT = {
     'UPDATE_LAST_LOGIN': False,
 }
 
-<<<<<<< HEAD
 CELERY_BROKER_URL = 'redis://redis:6379/1'
-=======
-CELERY_BROKER_URL = 'redis://localhost:6379/1'
->>>>>>> origin/main
 
 if DEBUG:
     SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'] = timedelta(days=1)

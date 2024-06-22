@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "7499f010f89176e67d11aeac012e7ac0b9b744ef3dcda4635f19baca2f2e2180"
+            "sha256": "9c0d2f1d0bafb6dc436c06add04ce46e0858389d00ea2e21a8d2b92c2c4f4ae3"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -240,6 +240,15 @@
             "index": "pypi",
             "markers": "python_version >= '3.7'",
             "version": "==5.0.6"
+        },
+        "rest-framework-simplejwt": {
+            "hashes": [
+                "sha256:035187ce5380e18e8b966610a89b6460fb4b73cd179979343888fb190328125d",
+                "sha256:620c56826ff4791c4aaa730ec52aed1f4c74b9c20ea15b9fc1a39bdf99a29a30"
+            ],
+            "index": "pypi",
+            "markers": "python_version >= '3.0'",
+            "version": "==0.0.2"
         },
         "six": {
             "hashes": [

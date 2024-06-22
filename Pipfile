@@ -15,6 +15,8 @@ model-bakery = "*"
 django-debug-toolbar = "*"
 redis = "*"
 celery = "*"
+rest-framework-simplejwt = "*"
+
 [dev-packages]
 
 [requires]
