@@ -16,6 +16,7 @@ django-debug-toolbar = "*"
 redis = "*"
 celery = "*"
 djangorestframework-simplejwt = "*"
+django-celery-beat = "*"
 
 [dev-packages]
 

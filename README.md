@@ -65,9 +65,14 @@ Groceries Cart API is a Django REST Framework (DRF) API for an app that helps yo
   - DRF Nested Routers
 
 ## Getting Started
-#### This project uses Docker, in order to start it on your machine, make sure you have Docker installed and run:
-  - `git https://github.com/nazaruys/groceries_cart-api.git`
+#### This project uses Docker, in order to start it on your machine, make sure you have Docker installed and follow the instructions:
+  - `git clone https://github.com/nazaruys/groceries_cart-api.git`
   - `cd groceries_cart-api`
+  - `python3 manage.py shell -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())`
+  - Create a `.env` file with following context:
+      `SECRET_KEY=AboveCreatedSecretKey`
+      `DATABASE_PASSWORD=YourNewPassword`
+      `DEBUG=True`
   - `docker-compose up --build`
 
 

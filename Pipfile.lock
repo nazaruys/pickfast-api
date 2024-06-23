@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "079aded9f1c757df10068621d916969cb9d0142a3bf22c6efa28e87d2370ae40"
+            "sha256": "515c2f88733d527006623bf5c6f7ca2286926d1223e38890a59143fbfbbebfe2"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -88,6 +88,13 @@
             "markers": "python_version >= '3.6'",
             "version": "==0.3.0"
         },
+        "cron-descriptor": {
+            "hashes": [
+                "sha256:7b1a00d7d25d6ae6896c0da4457e790b98cba778398a3d48e341e5e0d33f0488",
+                "sha256:a67ba21804983b1427ed7f3e1ec27ee77bf24c652b0430239c268c5ddfbf9dc0"
+            ],
+            "version": "==1.4.3"
+        },
         "django": {
             "hashes": [
                 "sha256:8363ac062bb4ef7c3f12d078f6fa5d154031d129a15170a1066412af49d30905",
@@ -97,6 +104,13 @@
             "markers": "python_version >= '3.10'",
             "version": "==5.0.6"
         },
+        "django-celery-beat": {
+            "hashes": [
+                "sha256:f75b2d129731f1214be8383e18fae6bfeacdb55dffb2116ce849222c0106f9ad"
+            ],
+            "index": "pypi",
+            "version": "==2.6.0"
+        },
         "django-debug-toolbar": {
             "hashes": [
                 "sha256:5d7afb2ea5f8730241e5b0735396e16cd1fd8c6b53a2f3e1e30bbab9abb23728",
@@ -105,6 +119,14 @@
             "index": "pypi",
             "markers": "python_version >= '3.8'",
             "version": "==4.4.2"
+        },
+        "django-timezone-field": {
+            "hashes": [
+                "sha256:0095f43da716552fcc606783cfb42cb025892514f1ec660ebfa96186eb83b74c",
+                "sha256:d40f7059d7bae4075725d04a9dae601af9fe3c7f0119a69b0e2c6194a782f797"
+            ],
+            "markers": "python_version >= '3.8' and python_version < '4.0'",
+            "version": "==6.1.0"
         },
         "djangorestframework": {
             "hashes": [
@@ -231,6 +253,12 @@
             "index": "pypi",
             "markers": "python_version >= '3.8'",
             "version": "==4.8.0"
+        },
+        "python-crontab": {
+            "hashes": [
+                "sha256:f4ea1605d24533b67fa7a634ef26cb59a5f2e7954f6e677d2d7a2229959a2fc8"
+            ],
+            "version": "==3.1.0"
         },
         "python-dateutil": {
             "hashes": [
