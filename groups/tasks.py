@@ -8,3 +8,4 @@ def cleanup_old_products():
     threshold_date = timezone.now() - timezone.timedelta(days=28)
     old_products = Product.objects.filter(date_buyed__lt=threshold_date)
     old_products.delete()
+    print("Deleted old products.")

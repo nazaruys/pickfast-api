@@ -33,7 +33,10 @@ services:
     command: celery -A groceries_cart beat --loglevel=info
     depends_on:
       - redis
+      - mysql
+      - web
     volumes:
       - .:/app
+    entrypoint: "./docker-celerybeat-entrypoint.sh"
 volumes:
   mysql_data:
