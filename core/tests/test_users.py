@@ -2,6 +2,8 @@ from rest_framework import status
 import pytest
 from model_bakery import baker
 from django.contrib.auth import get_user_model
+from groups.models import Group
+
 
 User = get_user_model()
 
@@ -92,3 +94,21 @@ class TestUpdateUser:
 
         assert response.status_code == status.HTTP_400_BAD_REQUEST
 
+    def test_if_group_is_private_returns_403(self, api_client, user):
+        group = baker.make(Group, admin=user, private=True)
+        api_client.force_authenticate(user=user)
+
+        response = api_client.patch(f'/api/core/users/{user.pk}/', {"group_id": group.pk})
+
+        assert response.status_code == status.HTTP_403_FORBIDDEN
+        assert user.group_id != group.pk
+
+    def test_if_user_is_blacklisted_returns_403(self, api_client, user):
+            group = baker.make(Group, admin=user)
+            group.users_blacklist.add(user)
+            api_client.force_authenticate(user=user)
+
+            response = api_client.patch(f'/api/core/users/{user.pk}/', {"group_id": group.pk})
+
+            assert response.status_code == status.HTTP_403_FORBIDDEN
+            assert user.group_id != group.pk

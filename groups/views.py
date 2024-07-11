@@ -1,13 +1,9 @@
-from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
 from rest_framework import viewsets
-from rest_framework.views import APIView
-from rest_framework.mixins import ListModelMixin
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import status
-from rest_framework.exceptions import MethodNotAllowed
 from rest_framework import mixins
 from rest_framework.viewsets import GenericViewSet
 from .models import Group, Store, Product

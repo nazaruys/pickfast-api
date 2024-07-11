@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import permissions
-from .models import Group, Product, Store
+from .models import Group
 
 class IsGroupAdmin(permissions.BasePermission):
     def has_permission(self, request, view):

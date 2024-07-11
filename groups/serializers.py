@@ -12,7 +12,7 @@ class StoreSerializer(serializers.ModelSerializer):
 class GroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Group
-        fields = ['code', 'admin']
+        fields = ['code', 'admin', 'private', 'users_blacklist']
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:

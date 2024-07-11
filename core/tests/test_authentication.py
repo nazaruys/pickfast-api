@@ -4,7 +4,6 @@ from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 import pytest
 from model_bakery import baker
-from groups.models import Group
 from core.functions import is_refresh_token_blacklisted
 
 User = get_user_model()

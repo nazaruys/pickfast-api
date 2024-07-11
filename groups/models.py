@@ -23,6 +23,14 @@ class Group(models.Model):
             null=True, 
             related_name='admin_of', 
             on_delete=models.SET_NULL)
+    
+    private = models.BooleanField(default=False)
+
+    users_blacklist = models. \
+        ManyToManyField(
+            User, 
+            related_name='blacklisted_groups',
+            blank=True)
 
     @receiver(reset_group_admin_signal)
     def reset_group_admin(sender, instance, **kwargs):

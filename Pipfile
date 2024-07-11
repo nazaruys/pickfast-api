@@ -17,6 +17,8 @@ redis = "*"
 celery = "*"
 djangorestframework-simplejwt = "*"
 django-celery-beat = "*"
+django-cors-headers = "*"
+jinja2 = "*"
 
 [dev-packages]
 

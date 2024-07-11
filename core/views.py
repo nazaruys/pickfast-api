@@ -78,14 +78,24 @@ class UserViewSet(mixins.CreateModelMixin,
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         errors = {}
+
         password = request.data.get('password')
         if password and not is_valid_password(password):
             errors['password'] = 'Password must be at least 8 characters long and have at least one number, capital and lower letter.'
+        
         group_id = request.data.get('group_id')
         if group_id and not Group.objects.filter(code=group_id).exists():
             errors['group_id'] = 'Group does not exist.'
+
         if errors:
             return Response(errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        if group_id:
+            group = Group.objects.get(code=group_id)
+            if group.private:
+                return Response('You do not have permission to access this group. It is private.', status=status.HTTP_403_FORBIDDEN)
+            if group.users_blacklist.filter(id=instance.id).exists():
+                return Response('You do not have permission to access this group. You are blacklisted.', status=status.HTTP_403_FORBIDDEN)
         if instance.group_id and group_id != instance.group_id:
             previous_group_admin = Group.objects.get(code=instance.group_id).admin
             # If user is an admin of previous group:
