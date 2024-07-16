@@ -5,9 +5,14 @@ from .models import Store, Group, Product
 User = get_user_model()
 
 class StoreSerializer(serializers.ModelSerializer):
+    products_count = serializers.SerializerMethodField()
+ 
     class Meta:
         model = Store
-        fields = ['id', 'name']
+        fields = ['id', 'name', 'products_count']
+
+    def get_products_count(self, obj):
+        return obj.products.count()
     
 class GroupSerializer(serializers.ModelSerializer):
     class Meta:
@@ -15,9 +20,11 @@ class GroupSerializer(serializers.ModelSerializer):
         fields = ['code', 'admin', 'private', 'users_blacklist']
 
 class ProductSerializer(serializers.ModelSerializer):
+    store_name = serializers.CharField(source='store.name', read_only=True)
+    
     class Meta:
         model = Product
-        fields = ['id', 'title', 'priority', 'date_buyed', 'store_id', 'added_by']
+        fields = ['id', 'title', 'priority', 'date_buyed', 'store_id', 'store_name', 'added_by']
 
 class MembersUserSerializer(serializers.ModelSerializer):
     class Meta:
