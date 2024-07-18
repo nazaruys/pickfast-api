@@ -29,4 +29,4 @@ class ProductSerializer(serializers.ModelSerializer):
 class MembersUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'email']
+        fields = ['id', 'username', 'email', 'name', 'admin_of']

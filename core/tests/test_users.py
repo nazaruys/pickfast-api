@@ -79,6 +79,24 @@ class TestUpdateUser:
         assert response.status_code == status.HTTP_200_OK
         assert response.data["username"] == "a"
     
+    def test_if_user_is_group_admin_and_updates_group_id_returns_200(self, api_client, group):
+        api_client.force_authenticate(user=group.admin)
+        user = baker.make(User, group=group)
+
+        response = api_client.patch(f'/api/core/users/{user.pk}/', {"group_id": ""})
+
+        assert response.status_code == status.HTTP_200_OK
+        assert response.data["group_id"] is None
+
+    def test_if_user_is_group_admin_and_updates_not_group_id_returns_403(self, api_client, group):
+        api_client.force_authenticate(user=group.admin)
+        user = baker.make(User, group=group)
+
+        response = api_client.patch(f'/api/core/users/{user.pk}/', {"name": "a"})
+
+        assert response.status_code == status.HTTP_403_FORBIDDEN
+        assert user.name != "a"
+
     def test_if_not_users_profile_returns_403(self, api_client, user):
         api_client.force_authenticate(user=user)
         user_2 = baker.make(User)

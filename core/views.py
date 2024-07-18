@@ -11,7 +11,7 @@ from groups.signals import reset_group_admin_signal
 from groups.models import Group
 from .serializers import UserSerializer, LoginSerializer
 from .functions import is_valid_password
-from .permissions import IsUsersProfile
+from .permissions import IsUsersProfile, IsUsersProfileOrGroupAdmin
 
 
 User = get_user_model()
@@ -34,7 +34,7 @@ class UserViewSet(mixins.CreateModelMixin,
             elif self.action == 'retrieve':
                 self.permission_classes = [IsUsersProfile]
             elif self.action == 'update' or self.action == 'partial_update':
-                self.permission_classes = [IsUsersProfile]
+                self.permission_classes = [IsUsersProfileOrGroupAdmin]
             elif self.action == 'create':
                 self.permission_classes = [AllowAny]
             else:
