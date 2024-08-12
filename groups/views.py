@@ -125,3 +125,19 @@ class ProductViewSet(viewsets.ModelViewSet):
             serializer.save(group_id=group, added_by_id=user_id)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+    
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+
+        store_id = request.data.get('store_id')
+        if store_id:
+            if Store.objects.filter(id=store_id).exists():
+                instance.store_id = store_id
+            else:
+                return Response({"detail": "Store not found."}, status=status.HTTP_400_BAD_REQUEST)
+
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)

@@ -1,17 +1,16 @@
 from django.contrib.auth import get_user_model, authenticate, login, logout
-from rest_framework import generics, status, viewsets
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from rest_framework import mixins
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework_simplejwt.exceptions import TokenError
 from groups.signals import reset_group_admin_signal
 from groups.models import Group
 from .serializers import UserSerializer, LoginSerializer
 from .functions import is_valid_password
-from .permissions import IsUsersProfile, IsUsersProfileOrGroupAdmin
+from .permissions import IsUsersProfileOrGroupAdmin
 
 
 User = get_user_model()
@@ -32,7 +31,7 @@ class UserViewSet(mixins.CreateModelMixin,
             if self.action == 'list':
                 self.permission_classes = [IsAdminUser]
             elif self.action == 'retrieve':
-                self.permission_classes = [IsUsersProfile]
+                self.permission_classes = [IsAuthenticated]
             elif self.action == 'update' or self.action == 'partial_update':
                 self.permission_classes = [IsUsersProfileOrGroupAdmin]
             elif self.action == 'create':
@@ -93,10 +92,11 @@ class UserViewSet(mixins.CreateModelMixin,
         if group_id:
             group = Group.objects.get(code=group_id)
             if group.private:
-                return Response('You do not have permission to access this group. It is private.', status=status.HTTP_403_FORBIDDEN)
+                return Response({"detail": 'You do not have permission to access this group. It is private.'}, status=status.HTTP_403_FORBIDDEN)
             if group.users_blacklist.filter(id=instance.id).exists():
-                return Response('You do not have permission to access this group. You are blacklisted.', status=status.HTTP_403_FORBIDDEN)
-        if instance.group_id and group_id != instance.group_id:
+                return Response({"detail": 'You do not have permission to access this group. You are blacklisted.'}, status=status.HTTP_403_FORBIDDEN)
+        
+        if group_id and instance.group_id and group_id != instance.group_id:
             previous_group_admin = Group.objects.get(code=instance.group_id).admin
             # If user is an admin of previous group:
             if instance == previous_group_admin:

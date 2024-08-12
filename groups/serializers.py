@@ -19,14 +19,15 @@ class GroupSerializer(serializers.ModelSerializer):
         model = Group
         fields = ['code', 'admin', 'private', 'users_blacklist']
 
-class ProductSerializer(serializers.ModelSerializer):
-    store_name = serializers.CharField(source='store.name', read_only=True)
-    
-    class Meta:
-        model = Product
-        fields = ['id', 'title', 'priority', 'date_buyed', 'store_id', 'store_name', 'added_by']
-
 class MembersUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'name', 'admin_of']
+        fields = ['id', 'name', 'admin_of']
+        
+class ProductSerializer(serializers.ModelSerializer):
+    store_name = serializers.CharField(source='store.name', read_only=True)
+    added_by = MembersUserSerializer(read_only=True)
+
+    class Meta:
+        model = Product
+        fields = ['id', 'title', 'priority', 'date_buyed', 'store_id', 'store_name', 'added_by']

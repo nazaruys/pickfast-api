@@ -155,7 +155,7 @@ CELERY_BROKER_URL = 'redis://redis:6379/1'
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 
 if DEBUG:
-    SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'] = timedelta(days=1)
+    SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'] = timedelta(minutes=15)
     INSTALLED_APPS += ["debug_toolbar",]
     MIDDLEWARE += ["debug_toolbar.middleware.DebugToolbarMiddleware",]
     INTERNAL_IPS = ["127.0.0.1"]
