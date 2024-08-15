@@ -19,10 +19,8 @@ DEBUG = os.getenv('DEBUG') == 'True'
 ALLOWED_HOSTS = ['*']
 
 CORS_ORIGIN_WHITELIST = [
-    'http://10.0.2.2:8000'
+    'http://10.0.2.2:8000',
 ]
-
-
 
 # Application definition
 
@@ -37,7 +35,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
-    'django_celery_beat',
     'groups',
     'core',
 ]
@@ -81,9 +78,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'groceries_cart',
-        'USER': 'root',
+        'USER': os.environ.get('DATABASE_USER'),
         'PASSWORD': os.environ.get('DATABASE_PASSWORD'),
-        'HOST': 'mysql',
+        'HOST': os.environ.get('DATABASE_IP'),
         'PORT': '3306',
     }
 }
@@ -123,14 +120,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
 
 AUTH_USER_MODEL = 'core.User'
 
@@ -151,11 +147,7 @@ SIMPLE_JWT = {
     'UPDATE_LAST_LOGIN': False,
 }
 
-CELERY_BROKER_URL = 'redis://redis:6379/1'
-CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
-
 if DEBUG:
-    SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'] = timedelta(minutes=15)
     INSTALLED_APPS += ["debug_toolbar",]
     MIDDLEWARE += ["debug_toolbar.middleware.DebugToolbarMiddleware",]
     INTERNAL_IPS = ["127.0.0.1"]

@@ -1,2 +1,13 @@
-celerybeat-schedule
 *.txt
+
+# For production
+tests/
+conftest.py
+pytest.ini
+.pytest_cache/
+staticfiles
+
+__pycache__/
+*.pyc
+*.pyo
+README.md

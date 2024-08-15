@@ -65,9 +65,6 @@ Groceries Cart API is a Django REST Framework (DRF) API for an app that helps yo
 - MySql Client
 - Django Rest Framework
 - Docker
-- Redis
-- Celery
-- Celery Beat
 - DRF SimpleJWT
 - Pytest
 - Pytest Watch

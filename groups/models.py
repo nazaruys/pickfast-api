@@ -1,10 +1,7 @@
 from django.db import models
 from django.utils.crypto import get_random_string
 from django.conf import settings
-from django.dispatch import receiver
 from django.contrib.auth import get_user_model
-from .signals import reset_group_admin_signal
-from .functions import update_group_admin
 
 User= get_user_model()
 
@@ -31,10 +28,6 @@ class Group(models.Model):
             User, 
             related_name='blacklisted_groups',
             blank=True)
-
-    @receiver(reset_group_admin_signal)
-    def reset_group_admin(sender, instance, **kwargs):
-        update_group_admin(instance)
 
     def __str__(self):
         return self.code

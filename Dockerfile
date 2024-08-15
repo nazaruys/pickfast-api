@@ -34,7 +34,9 @@ COPY . .
 
 # Ensure the entrypoint script is executable
 RUN chown -R app:app /app
-RUN chmod +x ./docker-entrypoint.sh
+RUN chmod +x /app/docker-entrypoint.sh
+
+ENTRYPOINT [ "/app/docker-entrypoint.sh" ]
 
 USER app
 # Expose the port the app runs on

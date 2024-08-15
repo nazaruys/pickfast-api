@@ -8,19 +8,16 @@ django = "*"
 mysqlclient = "*"
 djangorestframework = "*"
 drf-nested-routers = "*"
-pytest = "*"
-pytest-django = "*"
 python-dotenv = "*"
-model-bakery = "*"
-django-debug-toolbar = "*"
-redis = "*"
-celery = "*"
 djangorestframework-simplejwt = "*"
-django-celery-beat = "*"
 django-cors-headers = "*"
 jinja2 = "*"
 
 [dev-packages]
+pytest = "*"
+pytest-django = "*"
+model-bakery = "*"
+django-debug-toolbar = "*"
 
 [requires]
 python_version = "3.10"

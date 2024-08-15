@@ -6,7 +6,6 @@ from rest_framework.viewsets import GenericViewSet
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from rest_framework import mixins
 from rest_framework_simplejwt.tokens import RefreshToken
-from groups.signals import reset_group_admin_signal
 from groups.models import Group
 from .serializers import UserSerializer, LoginSerializer
 from .functions import is_valid_password
@@ -96,12 +95,17 @@ class UserViewSet(mixins.CreateModelMixin,
             if group.users_blacklist.filter(id=instance.id).exists():
                 return Response({"detail": 'You do not have permission to access this group. You are blacklisted.'}, status=status.HTTP_403_FORBIDDEN)
         
-        if group_id and instance.group_id and group_id != instance.group_id:
-            previous_group_admin = Group.objects.get(code=instance.group_id).admin
+        if instance.group_id and group_id != instance.group_id:
+            previous_group = Group.objects.get(code=instance.group_id)
             # If user is an admin of previous group:
-            if instance == previous_group_admin:
-                reset_group_admin_signal.send(sender=User, instance=instance)
-        
+            if instance == previous_group.admin:
+                instance.admin_of = None
+                new_admin = previous_group.members.exclude(pk=instance.pk).first()
+                if new_admin:
+                    previous_group.admin = new_admin
+                    previous_group.save()
+                else:
+                    previous_group.delete()
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
     
