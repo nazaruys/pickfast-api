@@ -67,6 +67,17 @@ class Product(models.Model):
     added_by = models.ForeignKey(
         settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE, related_name='products')
 
+    def save(self, *args, **kwargs):
+        super(Product, self).save(*args, **kwargs)
+
+        products_in_group = Product.objects.filter(group=self.group)
+        
+        if products_in_group.count() > 100:
+            products_to_delete = products_in_group.filter(date_buyed__isnull=False).order_by('date_buyed')[:5]
+
+            for product in products_to_delete:
+                product.delete()
+    
     def __str__(self):
         return self.title
     
