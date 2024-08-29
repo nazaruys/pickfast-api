@@ -132,12 +132,17 @@ class ProductViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
 
-        store_id = request.data.get('store_id')
-        if store_id:
-            if Store.objects.filter(id=store_id).exists():
-                instance.store_id = store_id
+        if "store_id" in request.data:
+            store_id = request.data.get('store_id')
+            if store_id:
+                try:
+                    store = Store.objects.get(id=store_id)
+                    instance.store = store
+                except Store.DoesNotExist:
+                    return Response({"detail": "Store not found."}, status=status.HTTP_400_BAD_REQUEST)
             else:
-                return Response({"detail": "Store not found."}, status=status.HTTP_400_BAD_REQUEST)
+                instance.store = None
+
 
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)

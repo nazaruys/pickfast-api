@@ -95,7 +95,8 @@ class UserViewSet(mixins.CreateModelMixin,
             if group.users_blacklist.filter(id=instance.id).exists():
                 return Response({"detail": 'You do not have permission to access this group. You are blacklisted.'}, status=status.HTTP_403_FORBIDDEN)
         
-        if instance.group_id and group_id != instance.group_id:
+        # if instance is changing group_id
+        if 'group_id' in request.data and instance.group_id and group_id != instance.group_id:
             previous_group = Group.objects.get(code=instance.group_id)
             # If user is an admin of previous group:
             if instance == previous_group.admin:
