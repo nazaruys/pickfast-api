@@ -10,7 +10,6 @@ djangorestframework = "*"
 drf-nested-routers = "*"
 python-dotenv = "*"
 djangorestframework-simplejwt = "*"
-django-cors-headers = "*"
 jinja2 = "*"
 
 [dev-packages]
