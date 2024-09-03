@@ -16,6 +16,8 @@ ENV_PREFIX = 'PROD'
 if DEBUG:
     ENV_PREFIX = 'DEV'
 
+print('Running on enviroment: ', ENV_PREFIX)
+
 ALLOWED_HOSTS = os.getenv(f'{ENV_PREFIX}_ALLOWED_HOSTS', '').split(',')
 
 # Application definition
@@ -50,7 +52,7 @@ if DEBUG:
     INTERNAL_IPS = ["127.0.0.1"]
 
 # URL configuration
-ROOT_URLCONF = 'groceries_cart.urls'
+ROOT_URLCONF = 'pickfast.urls'
 
 # Templates
 TEMPLATES = [
@@ -70,7 +72,7 @@ TEMPLATES = [
 ]
 
 # WSGI configuration
-WSGI_APPLICATION = 'groceries_cart.wsgi.application'
+WSGI_APPLICATION = 'pickfast.wsgi.application'
 
 # Database configuration
 DATABASES = {
