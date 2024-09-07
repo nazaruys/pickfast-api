@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'pickfast.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'groceries_cart',
+        'NAME': os.environ.get('DATABASE_NAME'),
         'USER': os.environ.get('DATABASE_USER'),
         'PASSWORD': os.environ.get('DATABASE_PASSWORD'),
         'HOST': os.environ.get(f'{ENV_PREFIX}_DATABASE_IP'),
@@ -125,3 +125,5 @@ SIMPLE_JWT = {
     'BLACKLIST_AFTER_ROTATION': True,
     'UPDATE_LAST_LOGIN': False,
 }
+
+MAILGUN_DOMAIN = 'pick-fast.com'

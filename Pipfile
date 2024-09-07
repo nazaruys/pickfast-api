@@ -11,6 +11,7 @@ drf-nested-routers = "*"
 python-dotenv = "*"
 djangorestframework-simplejwt = "*"
 jinja2 = "*"
+requests = "*"
 
 [dev-packages]
 pytest = "*"

@@ -1,10 +1,10 @@
-# Groceries Cart API
+# PickFast API
 
 <p align="center">
-  <img src="https://github.com/nazaruys/groceries_cart-frontend/blob/master/app/assets/Groceries-Cart.png?raw=true" alt="Groceries Cart"  width="200" height="200" />
+  <img src="https://github.com/nazaruys/pickfast-app/blob/master/app/assets/logo.png?raw=true" alt="PickFast"  width="400" height="250" />
 </p>
 
-### Groceries Cart API is a Django REST Framework API for an [app](https://github.com/nazaruys/groceries_cart-frontend) that helps you and your family keep track of the items you need to buy from stores.
+### PickFast API is a Django REST Framework API for an [app](https://github.com/nazaruys/pickfast-frontend) that helps you and your family keep track of the items you need to buy from stores.
 
 ## Features
 
@@ -61,23 +61,21 @@
 
 ## Stack
 
-- Django
-- MySql Client
 - Django Rest Framework
+- MySql
 - Docker
-- DRF SimpleJWT
-- Pytest
+- Cloud Run for deployment
+- DRF SimpleJWT, Nested Routers
+- Python Dotenv
 - Pytest Watch
 - Django Debug Toolbar
-- Python Dotenv
-- DRF Nested Routers
 
 ## Getting Started
 
 #### This project uses Docker, in order to start it on your machine, make sure you have Docker installed and follow the instructions:
 
-- `git clone https://github.com/nazaruys/groceries_cart-api.git`
-- `cd groceries_cart-api`
+- `git clone https://github.com/nazaruys/pickfast-api.git`
+- `cd pickfast-api`
 - `python3 -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'`
 - Create a `.env` file with following context:
   `SECRET_KEY=AboveCreatedSecretKey`
