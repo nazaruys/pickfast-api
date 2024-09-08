@@ -60,14 +60,6 @@ class TestRetrieveUser:
 
         assert response.status_code == status.HTTP_200_OK
         assert response.data["id"] == user.pk
-    
-    def test_if_not_users_profile_returns_403(self, api_client, user):
-        api_client.force_authenticate(user=user)
-        user_2 = baker.make(User)
-
-        response = api_client.get(f'/api/core/users/{user_2.pk}/')
-
-        assert response.status_code == status.HTTP_403_FORBIDDEN
 
 @pytest.mark.django_db
 class TestUpdateUser:

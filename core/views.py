@@ -6,8 +6,9 @@ from rest_framework.viewsets import GenericViewSet
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from rest_framework import mixins
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.decorators import api_view
 from groups.models import Group
-from .serializers import UserSerializer, LoginSerializer
+from .serializers import UserSerializer, LoginSerializer, VerifyEmailSerializer
 from .functions import is_valid_password
 from .permissions import IsUsersProfileOrGroupAdmin
 
@@ -126,3 +127,26 @@ class LoginView(APIView):
             })
         
         return Response({'detail': 'Invalid credentials.'}, status=status.HTTP_401_UNAUTHORIZED)
+
+@api_view(['POST'])
+def verify_email_code(request):
+    serializer = VerifyEmailSerializer(data=request.data)
+    
+    if serializer.is_valid():
+        email = serializer.validated_data['email']
+        verification_code = serializer.validated_data['verification_code']
+        
+        try:
+            user = User.objects.get(email=email, verification_code=verification_code)
+            
+            # Update user's verification status
+            user.verified = True
+            user.verification_code = None  # Clear the code to prevent reuse
+            user.save()
+            
+            return Response({'message': 'Email successfully verified.'}, status=status.HTTP_200_OK)
+        
+        except User.DoesNotExist:
+            return Response({'error': 'Invalid verification code.'}, status=status.HTTP_400_BAD_REQUEST)
+    
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
