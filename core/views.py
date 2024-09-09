@@ -7,10 +7,14 @@ from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from rest_framework import mixins
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.decorators import api_view
+from django.utils import timezone
+from datetime import timedelta
 from groups.models import Group
-from .serializers import UserSerializer, LoginSerializer, VerifyEmailSerializer
+from .serializers import UserSerializer, LoginSerializer, VerifyEmailSerializer, ResendVerificationEmailSerializer
 from .functions import is_valid_password
 from .permissions import IsUsersProfileOrGroupAdmin
+from .utils import send_email
+
 
 
 User = get_user_model()
@@ -131,6 +135,7 @@ class LoginView(APIView):
 @api_view(['POST'])
 def verify_email_code(request):
     serializer = VerifyEmailSerializer(data=request.data)
+    permission_classes = [IsAuthenticated]
     
     if serializer.is_valid():
         email = serializer.validated_data['email']
@@ -150,3 +155,28 @@ def verify_email_code(request):
             return Response({'error': 'Invalid verification code.'}, status=status.HTTP_400_BAD_REQUEST)
     
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class ResendVerificationEmailView(APIView):
+    permission_classes = [IsAuthenticated]
+    def post(self, request):
+        serializer = ResendVerificationEmailSerializer(data=request.data)
+        if serializer.is_valid():
+            email = serializer.validated_data['email']
+            try:
+                user = User.objects.get(email=email)
+                if not (user.verified):
+                    # Check for email timeout
+                    if user.last_email_sent and timezone.now() - user.last_email_sent < timedelta(minutes=5):
+                        return Response({'error': 'You can only request a resend every 5 minutes.'}, status=status.HTTP_429_TOO_MANY_REQUESTS)
+                    user.last_email_sent = timezone.now()
+
+                    # Send the welcome email
+                    subject = "Verification code"
+                    message = f"Hi {user.username},\n\nHere is your verification code: {user.verification_code}"
+                    send_email(subject, message, user.email, from_name_email='PickFast <noreply@pick-fast.com>')
+
+                    return Response({'message': 'Email resent successfully.'}, status=status.HTTP_200_OK)
+                return Response({'error': 'You are already verified.'}, status=status.HTTP_400_BAD_REQUEST)
+            except User.DoesNotExist:
+                return Response({'error': 'User with this email does not exist.'}, status=status.HTTP_404_NOT_FOUND)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

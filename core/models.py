@@ -10,6 +10,7 @@ class User(AbstractUser):
     group = models.ForeignKey('groups.Group', on_delete=models.SET_NULL, null=True, blank=True, related_name='members')
     verified = models.BooleanField(default=False, blank=True)
     verification_code = models.CharField(max_length=6, null=True, blank=True)
+    last_email_sent = models.DateTimeField(null=True, blank=True)
     first_name = None
     last_name = None
     last_login = None
