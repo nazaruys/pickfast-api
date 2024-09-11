@@ -11,4 +11,4 @@ def send_welcome_email(sender, instance, created, **kwargs):
         print('New User created!')
         subject = "Welcome to PickFast!"
         message = f"Hi {instance.username},\n\nThank you for signing up for our service. Here is your verification code: {instance.verification_code}"
-        send_email(subject, message, instance.email, from_name_email='PickFast <noreply@pick-fast.com>')
+        send_email(subject, message, [instance.email], from_name_email='PickFast <noreply@pick-fast.com>')

@@ -37,3 +37,7 @@ class VerifyEmailSerializer(serializers.Serializer):
 
 class ResendVerificationEmailSerializer(serializers.Serializer):
     email = serializers.EmailField()
+
+class FeedbackSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    message = serializers.CharField(max_length=1000)
